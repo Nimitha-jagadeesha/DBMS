@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from ForestManagement import views
 urlpatterns = [
+    path('', views.home, name='home'),
+    path('list/', views.list_products, name='listitems'),
     path('admin/', admin.site.urls),
+    
 ]
