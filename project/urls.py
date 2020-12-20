@@ -19,7 +19,8 @@ from ForestManagement import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('list/', views.list_products, name='listitems'),
-    path('add_items/', views.add_items, name='add_items'),
+    path('list_orders/', views.list_orders, name='listorders'),
+    path('add_items/', views.add_products, name='add_items'),
     path('admin/', admin.site.urls),
     
 ]
