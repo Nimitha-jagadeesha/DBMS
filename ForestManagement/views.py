@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from ForestManagement.models import *
+from ForestManagement.forms import ProductCreateForm, OrderCreateForm
 # Create your views here.
 
 def home(request):
@@ -17,3 +18,25 @@ def list_products(request):
 		"queryset":queryset,
 	}
 	return render(request, "listitems.html",context)
+
+def add_items(request):
+	form =OrderCreateForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		return redirect('/list')
+	context = {
+		"form": form,
+		"title": "Add Item",
+	}
+	return render(request, "add_items.html", context)
+
+def add_orders(request):
+	form = OrderCreateForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		return redirect('/list')
+	context = {
+		"form": form,
+		"title": "Add Item",
+	}
+	return render(request, "add_items.html", context)
