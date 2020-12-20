@@ -27,3 +27,9 @@ class OrderCreateForm(forms.ModelForm):
 class SearchForm(forms.Form):
   name = forms.CharField(max_length=20, required=False)
 
+
+class ProductUpdateForm(forms.ModelForm):
+	class Meta:
+		model = Product
+		fields = ['category', 'item_name', 'quantity']
+
