@@ -14,13 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from ForestManagement import views
+# from . import rango
 urlpatterns = [
     path('', views.home, name='home'),
     path('list/', views.list_products, name='listitems'),
     path('list_orders/', views.list_orders, name='listorders'),
     path('add_items/', views.add_products, name='add_items'),
     path('admin/', admin.site.urls),
-    
+    path('update_products/<str:pk>/', views.update_products, name="update_items"),
+    path('delete_products/<str:pk>/', views.delete_products, name="delete_products"),
+    path('accounts/', include('registration.backends.default.urls')),
+    # path('rango/',include('rango.urls')),
 ]

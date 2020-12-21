@@ -33,3 +33,8 @@ class ProductUpdateForm(forms.ModelForm):
 		model = Product
 		fields = ['category', 'item_name', 'quantity']
 
+class OrderUpdateForm(forms.ModelForm):
+	class Meta:
+		model = Order
+		fields = ['category', 'item_name', 'quantity', 'delivery_date']
+

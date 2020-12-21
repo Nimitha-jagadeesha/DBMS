@@ -11,22 +11,29 @@
         <li class="nav-item">
           <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
+        {% if user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="/list">Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/add_items">Add Products</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="/list_orders">Orders</a>
         </li>
+        {% endif %}
       </ul>
       {% if okay %}
       <form class="form-inline mt-2 mt-md-0" method='POST' action=''>{% csrf_token %}
-        {{form|crispy}}{" "}
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value='Search'>Search</button>
+        {{form|crispy}}
+        <button class="btn btn-outline-info my-2 my-sm-0" type="submit" value='Search'>Search</button>
       </form>
       {% endif %}
+      <ul class="navbar-nav">
+        {% if request.user.is_authenticated %}
+        <li><a href="/accounts/logout">{{ user }} | Logout</a></li>
+        {% else %}
+        <li><a href="/accounts/login">Login</a></li>
+        {% endif %}
+    </ul>
+
     </div>
   </nav>
   

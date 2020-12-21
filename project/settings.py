@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ForestManagement',
-    'crispy_forms'
+    'crispy_forms',
+    'registration',
+    
 ]
 
 MIDDLEWARE = [
@@ -121,3 +123,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+REGISTRATION_OPEN = True                # If True, users can register
+ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
+REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged in.
+LOGIN_REDIRECT_URL = '/'  # The page you want users to arrive at after they successful log in
+LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not logged in,
+                                                                # and are trying to access pages requiring authentication
+# ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
+# REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
+# SITE_ID = 1
+# LOGIN_REDIRECT_URL = '/'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_EMAIL_VERIFICATION = "none"
