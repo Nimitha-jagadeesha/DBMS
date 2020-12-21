@@ -20,9 +20,10 @@ class ProductCreateForm(forms.ModelForm):
   
 
 class OrderCreateForm(forms.ModelForm):
-    class Meta:
-      model = Order
-      fields = ['category', 'item_name', 'quantity','delivery_date']
+	category = Product.objects.values_list('category',flat=True)
+	class Meta:
+		model = Order
+		fields = ['category', 'item_name', 'quantity','delivery_date']
 
 class SearchForm(forms.Form):
   name = forms.CharField(max_length=20, required=False)

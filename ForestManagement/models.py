@@ -1,6 +1,11 @@
 from django.db import models
 from django.utils import timezone
-
+from django.contrib.auth.models import User
+category_choice = (
+		('Furniture', 'Furniture'),
+		('IT Equipment', 'IT Equipment'),
+		('Phone', 'Phone'),
+	)
 class Product(models.Model):
 	category = models.CharField(max_length=50, blank=True, null=True)
 	item_name = models.CharField(max_length=50, blank=True, null=True)
@@ -20,12 +25,13 @@ class Product(models.Model):
 		return self.item_name
 
 class Order(models.Model):
-	category = models.CharField(max_length=50, blank=False, null=True)
+	category = models.CharField(max_length=50, blank=False, null=True, choices=category_choice)
 	item_name = models.CharField(max_length=50, blank=False, null=True)
 	quantity = models.IntegerField(default=0, blank=False, null=True)
 	ordered_date = models.DateTimeField(auto_now=True)
 	delivery_date =  models.DateField()
-	user_name = models.CharField(max_length=50, blank=True, null=True)
+	user_name = models.ForeignKey(User, on_delete=models.CASCADE)
+
 
 	def __str__(self):
 		return self.item_name + " by " + str(self.user_name)

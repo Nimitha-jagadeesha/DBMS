@@ -16,19 +16,20 @@
           <a class="nav-link" href="/list">Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/list_orders">Orders</a>
+          <a class="nav-link" href="{% url 'list_orders' user%} ">Orders</a>
         </li>
         {% endif %}
       </ul>
       {% if okay %}
-      <form class="form-inline mt-2 mt-md-0" method='POST' action=''>{% csrf_token %}
+      <form class="form-inline mt-2 mt-md-0" method='POST' action=''>
+        {% csrf_token %}
         {{form|crispy}}
         <button class="btn btn-outline-info my-2 my-sm-0" type="submit" value='Search'>Search</button>
       </form>
       {% endif %}
       <ul class="navbar-nav">
         {% if request.user.is_authenticated %}
-        <li><a href="/accounts/logout">{{ user }} | Logout</a></li>
+        <li>&nbsp;&nbsp;<a href="/accounts/logout">{{ user }} | Logout</a></li>
         {% else %}
         <li><a href="/accounts/login">Login</a></li>
         {% endif %}

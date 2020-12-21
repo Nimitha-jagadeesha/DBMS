@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from ForestManagement.models import *
 from ForestManagement.forms import ProductCreateForm, OrderCreateForm, SearchForm, ProductUpdateForm, OrderUpdateForm
 from django.contrib.auth.decorators import login_required
+from django.views.generic import UpdateView, CreateView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import render, get_object_or_404
 # Create your views here.
 
 def home(request):
@@ -80,19 +83,6 @@ def add_products(request):
 	return render(request, "add_items.html", context)
 
 @login_required
-def add_orders(request):
-	form = OrderCreateForm(request.POST or None)
-	if form.is_valid():
-		form.save()
-		return redirect('/list')
-	context = {
-		"form": form,
-		"title": "Add Item",
-		"okay":True
-	}
-	return render(request, "add_items.html", context)
-
-@login_required
 def update_products(request, pk):
 	queryset = Product.objects.get(id=pk)
 	form = ProductUpdateForm(instance=queryset)
@@ -130,4 +120,24 @@ def delete_products(request, pk):
 			return redirect('/list')
 		return render(request, 'delete_products.html')
 
-	
+class OrderCreateView(LoginRequiredMixin, CreateView):
+	model = Order
+	template_name='add_items.html'
+	fields = ['category', 'item_name', 'quantity', 'delivery_date']
+	success_url='/'
+
+
+	def form_valid(self, form):
+		form.instance.user_name = self.request.user
+		return super().form_valid(form)
+
+class UserOrderListView(ListView):
+    model = Order
+    template_name = 'list_orders.html'
+    context_object_name = 'orders'
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Order.objects.filter(user_name=user).order_by('ordered_date')
+
