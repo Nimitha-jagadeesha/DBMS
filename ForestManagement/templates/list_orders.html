@@ -58,14 +58,20 @@
                     <th>CATEGORY</th>
                     <th>ITEM NAME</th>
                     <th>QUANTITY</th>
+                    {% if user.is_staff %}
+                    <th>CUSTOMER NAME</th>
+                    {% endif %}
                   </tr>
                 </thead>
-              {% for instance in queryset %}
+              {% for instance in orders %}
                   <tr>
                     <td>{{forloop.counter}}</td>
                     <td>{{instance.category}}</td>
                     <td>{{instance.item_name}}</td>
                     <td>{{instance.quantity}}</td>
+                    {% if user.is_staff %}
+                    <td>{{instance.user_name}}</td>
+                    {% endif %}
                   </tr>
               {% endfor %}
             </table>

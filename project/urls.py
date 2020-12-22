@@ -20,6 +20,7 @@ from ForestManagement import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('list/', views.list_products, name='listitems'),
+    path('list_orders_staff', views.list_orders, name='list_orders_staff'),
     path('list_orders/<str:username>', views.UserOrderListView.as_view(), name='list_orders'),
     path('add_items/', views.add_products, name='add_items'),
     path('place_order/', views.OrderCreateView.as_view(), name='place_order'),
@@ -27,5 +28,4 @@ urlpatterns = [
     path('update_products/<str:pk>/', views.update_products, name="update_items"),
     path('delete_products/<str:pk>/', views.delete_products, name="delete_products"),
     path('accounts/', include('registration.backends.default.urls')),
-    # path('rango/',include('rango.urls')),
 ]

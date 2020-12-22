@@ -15,9 +15,15 @@
         <li class="nav-item">
           <a class="nav-link" href="/list">Products</a>
         </li>
+        {% if user.is_staff%}
+        <li class="nav-item">
+          <a class="nav-link" href="/list_orders_staff">Orders</a>
+        </li>
+        {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'list_orders' user%} ">Orders</a>
         </li>
+        {% endif %}
         {% endif %}
       </ul>
       {% if okay %}

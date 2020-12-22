@@ -47,10 +47,10 @@ def list_products(request):
 def list_orders(request):
 	form = SearchForm(request.POST or None)
 	title = 'Orders'
-	queryset = Order.objects.all()
+	orders = Order.objects.all()
 	context = {
 	    "title": title,
-		"queryset":queryset,
+		"orders":orders,
 		"okay":True,
 		"form":form
 	}
@@ -59,12 +59,12 @@ def list_orders(request):
 			cd = form.cleaned_data
 			a= cd.get('name')
 		if(a):
-			queryset = Order.objects.filter(item_name__icontains=a) | Order.objects.filter(category__icontains=a)
+			orders = Order.objects.filter(item_name__icontains=a) | Order.objects.filter(category__icontains=a)
 		else:
-			queryset = Order.objects.all()			
+			orders = Order.objects.all()			
 	context = {
 	    "title": title,
-		"queryset":queryset,
+		"orders":orders,
 		"okay":True,
 		"form":form
 	}
@@ -81,7 +81,6 @@ def add_products(request):
 		"title": "Add Products",
 	}
 	return render(request, "add_items.html", context)
-
 @login_required
 def update_products(request, pk):
 	queryset = Product.objects.get(id=pk)
@@ -139,5 +138,5 @@ class UserOrderListView(ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Order.objects.filter(user_name=user).order_by('ordered_date')
+        return Order.objects.filter(user_name=user).order_by('delivery_date')
 
