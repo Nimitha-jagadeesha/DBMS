@@ -37,7 +37,7 @@
         {% if request.user.is_authenticated %}
         <li>&nbsp;&nbsp;<a href="/accounts/logout">{{ user }} | Logout</a></li>
         {% else %}
-        <li><a href="/accounts/login">Login</a></li>
+        <li><a class="nav-link" href="/accounts/login">Login</a></li>
         {% endif %}
     </ul>
 

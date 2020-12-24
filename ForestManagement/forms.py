@@ -23,7 +23,8 @@ class OrderCreateForm(forms.ModelForm):
 	category = Product.objects.values_list('category',flat=True)
 	class Meta:
 		model = Order
-		fields = ['category', 'item_name', 'quantity','delivery_date']
+		fields = [ 'item', 'ordered_quantity', 'delivery_date']
+
 
 class SearchForm(forms.Form):
   name = forms.CharField(max_length=20, required=False)
@@ -37,5 +38,5 @@ class ProductUpdateForm(forms.ModelForm):
 class OrderUpdateForm(forms.ModelForm):
 	class Meta:
 		model = Order
-		fields = ['category', 'item_name', 'quantity', 'delivery_date']
+		fields = ['item', 'ordered_quantity', 'delivery_date']
 

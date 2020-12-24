@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import UpdateView, CreateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404
+from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def home(request):
@@ -44,28 +46,31 @@ def list_products(request):
 	return render(request, "listitems.html",context)
 
 @login_required
+@csrf_exempt
 def list_orders(request):
 	form = SearchForm(request.POST or None)
 	title = 'Orders'
-	orders = Order.objects.all()
+	orders = Order.objects.all().order_by('delivery_date')
+	# for i in orders:
+	# 	print(i)
 	context = {
 	    "title": title,
 		"orders":orders,
-		"okay":True,
+		"okay":False,
 		"form":form
 	}
-	if request.method == 'POST':
-		if form.is_valid():
-			cd = form.cleaned_data
-			a= cd.get('name')
-		if(a):
-			orders = Order.objects.filter(item_name__icontains=a) | Order.objects.filter(category__icontains=a)
+	if request.method == "POST":
+		order_id = request.POST.get('clear_order')
+		x = Order.objects.get(pk=order_id)
+		if x.item.quantity >= x.ordered_quantity:
+			Product.objects.filter(pk=x.item.id).update(quantity=x.item.quantity-x.ordered_quantity)
+			Order.objects.filter(pk=order_id).delete()
 		else:
-			orders = Order.objects.all()			
+			messages.error(request, "Cannot clear the order as there is no sufficient quantity of "+ str(x.item))
 	context = {
 	    "title": title,
 		"orders":orders,
-		"okay":True,
+		"okay":False,
 		"form":form
 	}
 	return render(request, "list_orders.html",context)
@@ -122,7 +127,7 @@ def delete_products(request, pk):
 class OrderCreateView(LoginRequiredMixin, CreateView):
 	model = Order
 	template_name='add_items.html'
-	fields = ['category', 'item_name', 'quantity', 'delivery_date']
+	fields = [ 'item', 'ordered_quantity', 'delivery_date']
 	success_url='/'
 
 

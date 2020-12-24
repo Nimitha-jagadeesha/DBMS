@@ -15,15 +15,15 @@ body {
   }
   
   .table tr:nth-child(odd){
-    background: #B8CAE4
+    background: #72e63d
   }
   
   .table tr:nth-child(even){
-    background: #dae5f4
+    background: #b3f79f
   }
   
   th {
-    background-color: #337ab7;
+    background-color: #008000;
     color: white;
   }
 
@@ -32,8 +32,9 @@ body {
     padding-left: 5px;
     padding-right: 5px;
     padding-bottom: 20px;
-    box-shadow: 12px 12px 20px 6px #2e6da4;
+    box-shadow: 12px 12px 20px 6px #2ea44b;
   }
   .jumbotron{
+    background-color: #bdf5aa;
     opacity: 0.95;
   }

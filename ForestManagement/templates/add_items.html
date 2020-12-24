@@ -14,9 +14,11 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/navbar-fixed/">
 
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
     <!-- Bootstrap core CSS -->
-<link href="{% static 'css/stylesheet.css' %}" rel="stylesheet">
-<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/stylesheet.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
     <!-- Favicons -->
 <link rel= "shortcut icon" href="{% static 'img/favicon.png' %}">
@@ -45,7 +47,7 @@
     {% include 'navbar.html' %} 
 
 <main role="main" class="container">
-  <div class="jumbotron">
+  <div class="jumbotron" style="background-color: #bdf5aa;">
 	<form method='POST' action=''>{% csrf_token %}
 		<h2>{{title}}</h2>
 		{{form|crispy}}

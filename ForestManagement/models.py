@@ -17,7 +17,6 @@ class Product(models.Model):
 	issue_to = models.CharField(max_length=50, blank=True, null=True)
 	phone_number = models.CharField(max_length=50, blank=True, null=True)
 	created_by = models.CharField(max_length=50, blank=True, null=True)
-	reorder_level = models.IntegerField(default='0', blank=True, null=True)
 	last_updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 	export_to_CSV = models.BooleanField(default=False)
 
@@ -25,9 +24,8 @@ class Product(models.Model):
 		return self.item_name
 
 class Order(models.Model):
-	category = models.CharField(max_length=50, blank=False, null=True, choices=category_choice)
-	item_name = models.CharField(max_length=50, blank=False, null=True)
-	quantity = models.IntegerField(default=0, blank=False, null=True)
+	item = models.ForeignKey(Product, on_delete = models.CASCADE)
+	ordered_quantity = models.IntegerField(default=0, blank=False, null=True)
 	ordered_date = models.DateTimeField(auto_now=True)
 	delivery_date =  models.DateField()
 	user_name = models.ForeignKey(User, on_delete=models.CASCADE)
