@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'ForestManagement',
     'crispy_forms',
     'registration',
+    'django_crontab'
     
 ]
 
@@ -124,6 +125,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+CRONJOBS = [
+    ('*/1 * * * *', 'ForestManagement.cron.mycronjob')
+]
 
 REGISTRATION_OPEN = True                # If True, users can register
 ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.

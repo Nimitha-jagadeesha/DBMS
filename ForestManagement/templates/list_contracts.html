@@ -56,11 +56,11 @@
     {% endif %}
             {% if user.is_staff%}
             <div class="header offset-4" style="color: green;">
-                <h1>LIST OF ORDERS</h1>
+                <h1>LIST OF CONTRACTS</h1>
             </div>
             {% else %}
             <div class="header offset-4" style="color: green;">
-                <h1>MY Contracts</h1>
+                <h1>My Contracts</h1>
             </div>
             {% endif %}
 
@@ -72,11 +72,11 @@
                             <th>SECTION</th>
                             <th>PRODUCT NAME</th>
                             <th>QUANTITY</th>
-                            <th>DELIVARY DATE</th>
                             <th>ORDERED DATE</th>
+                            <th>FREQUENCY</th>
                             {% if user.is_staff %}
                             <th>CUSTOMER NAME</th>
-                            <th></th>
+    
 
                             {% endif %}
                         </tr>
@@ -87,27 +87,27 @@
                         <td>{{instance.item.category}}</td>
                         <td>{{instance.item}}</td>
                         <td>{{instance.ordered_quantity}}</td>
-                        <td>{{instance.delivery_date}}</td>
                         <td>{{instance.ordered_date}}</td>
+                        <td>{{instance.frequency}}</td>
                         {% if user.is_staff %}
                         <td>{{instance.user_name}}</td>
-                        
-                        <td>
-                            {% csrf_token %}
-                            <form method="POST">
-                            <button class="btn btn-success offset-5" type="submit" name="clear_order" value="{{instance.id}}">CLEAR ORDER</button>
-                           </form>
-                        </td>
-
                         {% endif %}
                     </tr>
                     {% endfor %}
                 </table>
+                
+                {% if user.is_staff %}
+                {% csrf_token %}
+
+                <form method="POST">
+                <button class="btn btn-success offset-5" type="submit" name="update_contacts" >Update Contracts</button>
+               </form>
+               {% endif %}
             </div>
             <br />
             {% if not user.is_staff %}
-            <a href="{% url 'place_order'%}" class="btn btn-success offset-5"><i class="icon-plus icon-large"></i>&nbsp;
-                PLACE ORDER</a>
+            <a href="{% url 'make_contract'%}" class="btn btn-success offset-5"><i class="icon-plus icon-large"></i>&nbsp;
+                ADD CONTRACT</a>
             {% endif %}
         </div>
     </main>

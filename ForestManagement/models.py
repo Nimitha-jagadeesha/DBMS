@@ -1,11 +1,13 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-category_choice = (
-		('Furniture', 'Furniture'),
-		('IT Equipment', 'IT Equipment'),
-		('Phone', 'Phone'),
+import datetime
+from datetime import date
+frequency_choice = (
+		('Monthly', 'Monthly'),
+		('Yearly', 'Yearly'),
 	)
+
 class Product(models.Model):
 	category = models.CharField(max_length=50, blank=True, null=True)
 	item_name = models.CharField(max_length=50, blank=True, null=True)
@@ -32,4 +34,16 @@ class Order(models.Model):
 
 
 	def __str__(self):
-		return self.item_name + " by " + str(self.user_name)
+		return self.item.item_name
+
+class Contract(models.Model):
+	item = models.ForeignKey(Product, on_delete = models.CASCADE)
+	ordered_quantity = models.IntegerField(default=0, blank=False, null=True)
+	ordered_date = models.DateTimeField(auto_now=True)
+	user_name = models.ForeignKey(User, on_delete=models.CASCADE)
+	last_created_date = models.DateField(default=date.today() , blank=False, null=True)
+	frequency = models.CharField(max_length=50, blank=True, null=True,choices = frequency_choice)
+
+
+	def __str__(self):
+		return self.item.item_name
