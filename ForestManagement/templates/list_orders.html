@@ -60,7 +60,7 @@
             </div>
             {% else %}
             <div class="header offset-4" style="color: green;">
-                <h1>MY Contracts</h1>
+                <h1>My Orders</h1>
             </div>
             {% endif %}
 
@@ -74,6 +74,7 @@
                             <th>QUANTITY</th>
                             <th>DELIVARY DATE</th>
                             <th>ORDERED DATE</th>
+                            <th>COST</th>
                             {% if user.is_staff %}
                             <th>CUSTOMER NAME</th>
                             <th></th>
@@ -89,8 +90,9 @@
                         <td>{{instance.ordered_quantity}}</td>
                         <td>{{instance.delivery_date}}</td>
                         <td>{{instance.ordered_date}}</td>
+                        <td>{{instance.price}}</td>
                         {% if user.is_staff %}
-                        <td>{{instance.user_name}}</td>
+                        <td>{{instance.item.price }}</td>
                         
                         <td>
                             {% csrf_token %}

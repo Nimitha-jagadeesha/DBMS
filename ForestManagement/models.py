@@ -21,6 +21,8 @@ class Product(models.Model):
 	created_by = models.CharField(max_length=50, blank=True, null=True)
 	last_updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 	export_to_CSV = models.BooleanField(default=False)
+	price = models.IntegerField(default=0, blank=False, null=True)
+
 
 	def __str__(self):
 		return self.item_name
@@ -28,22 +30,21 @@ class Product(models.Model):
 class Order(models.Model):
 	item = models.ForeignKey(Product, on_delete = models.CASCADE)
 	ordered_quantity = models.IntegerField(default=0, blank=False, null=True)
-	ordered_date = models.DateTimeField(auto_now=True)
+	ordered_date = models.DateField(auto_now=True)
 	delivery_date =  models.DateField()
 	user_name = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
+	price = models.IntegerField(default=0, blank=False, null=True)
 	def __str__(self):
 		return self.item.item_name
 
 class Contract(models.Model):
 	item = models.ForeignKey(Product, on_delete = models.CASCADE)
 	ordered_quantity = models.IntegerField(default=0, blank=False, null=True)
-	ordered_date = models.DateTimeField(auto_now=True)
+	ordered_date = models.DateField(auto_now=True)
 	user_name = models.ForeignKey(User, on_delete=models.CASCADE)
-	last_created_date = models.DateField(default=date.today() , blank=False, null=True)
+	last_created_date = models.DateField(default='2000-1-1' , blank=False, null=True)
 	frequency = models.CharField(max_length=50, blank=True, null=True,choices = frequency_choice)
-
+	price = models.IntegerField(default=0, blank=False, null=True)
 
 	def __str__(self):
 		return self.item.item_name

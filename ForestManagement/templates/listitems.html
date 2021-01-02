@@ -62,7 +62,7 @@
                             <th>SECTION</th>
                             <th>PRODUCT NAME</th>
                             <th>QUANTITY AVAILABLE</th>
-
+                            <th>PRICE PER ONE PRODUCT</th>
                             {% if user.is_staff %}
                             <th>OPTIONS</th>
 
@@ -76,7 +76,7 @@
                         <td>{{instance.category}}</td>
                         <td>{{instance.item_name}}</td>
                         <td>{{instance.quantity}}</td>
-
+                        <td>{{instance.price}}</td>
                         {% if user.is_staff %}
                         <td><a href="{% url 'update_items' instance.id %}" class="btn btn-primary"><i
                                     class="icon-fixed-width icon-pencil"></i></a>{{" "}}<a

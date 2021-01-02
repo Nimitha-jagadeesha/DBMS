@@ -5,7 +5,7 @@ from .models import Product,Order
 class ProductCreateForm(forms.ModelForm):
   class Meta:
     model = Product
-    fields = ['category','item_name', 'quantity']
+    fields = ['category','item_name', 'quantity','price']
   def clean_category(self):
 	  category = self.cleaned_data.get('category')
 	  if not category:
@@ -23,7 +23,7 @@ class OrderCreateForm(forms.ModelForm):
 	category = Product.objects.values_list('category',flat=True)
 	class Meta:
 		model = Order
-		fields = [ 'item', 'ordered_quantity', 'delivery_date']
+		fields = [ 'item', 'ordered_quantity']
 
 
 class SearchForm(forms.Form):
@@ -38,5 +38,5 @@ class ProductUpdateForm(forms.ModelForm):
 class OrderUpdateForm(forms.ModelForm):
 	class Meta:
 		model = Order
-		fields = ['item', 'ordered_quantity', 'delivery_date']
+		fields = ['item', 'ordered_quantity']
 

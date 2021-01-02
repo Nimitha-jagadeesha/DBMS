@@ -7,10 +7,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
-import datetime
-from datetime import date
+from datetime import date,timedelta,datetime
 # Create your views here.
-
+d = timedelta(days=4)
+mydate = datetime.now() + d
 def home(request):
 	title = 'Forest Management System'
 	context = {
@@ -97,20 +97,20 @@ def list_contracts(request):
 			frequency = row.frequency
 			last_update = row.last_created_date
 			present_date = date.today()
-			print(last_update,present_date, type(present_date),type(last_update))
 			dl = present_date - last_update
 			if frequency == 'Monthly':
 				if(dl.days >30):
 					Order.objects.create(item = row.item,
 					ordered_quantity = row.ordered_quantity,
-					delivery_date = present_date,
-					user_name = row.user_name)
+					delivery_date = mydate,
+					user_name = row.user_name,
+					price = (row.item.price * row.ordered_quantity) )
 					Contract.objects.filter(pk = row.id).update(last_created_date = present_date)
 			else:
 				if(dl.days >365):
 					Order.objects.create(item = row.item,
 					ordered_quantity = row.ordered_quantity,
-					delivery_date = present_date,
+					delivery_date = mydate,
 					user_name = row.user_name)
 					Contract.objects.filter(pk = row.id).update(last_created_date = present_date)
 	context = {
@@ -158,12 +158,14 @@ def delete_products(request, pk):
 class OrderCreateView(LoginRequiredMixin, CreateView):
 	model = Order
 	template_name='add_items.html'
-	fields = [ 'item', 'ordered_quantity', 'delivery_date']
+	fields = [ 'item', 'ordered_quantity']
 	success_url='/'
 
 
 	def form_valid(self, form):
 		form.instance.user_name = self.request.user
+		form.instance.delivery_date= mydate
+		form.instance.price = (form.instance.item.price * form.instance.ordered_quantity) 
 		return super().form_valid(form)
 
 class UserOrderListView(ListView):
@@ -185,6 +187,7 @@ class ContractCreateView(LoginRequiredMixin, CreateView):
 
 	def form_valid(self, form):
 		form.instance.user_name = self.request.user
+		form.instance.price = (form.instance.item.price * form.instance.ordered_quantity) 
 		return super().form_valid(form)
 
 class UserContractsListView(ListView):

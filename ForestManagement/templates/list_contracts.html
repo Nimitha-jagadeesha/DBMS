@@ -74,6 +74,7 @@
                             <th>QUANTITY</th>
                             <th>ORDERED DATE</th>
                             <th>FREQUENCY</th>
+                            <th>PRICE</th>
                             {% if user.is_staff %}
                             <th>CUSTOMER NAME</th>
     
@@ -89,6 +90,7 @@
                         <td>{{instance.ordered_quantity}}</td>
                         <td>{{instance.ordered_date}}</td>
                         <td>{{instance.frequency}}</td>
+                        <td>{{instance.price}}</td>
                         {% if user.is_staff %}
                         <td>{{instance.user_name}}</td>
                         {% endif %}
@@ -98,7 +100,7 @@
                 
                 {% if user.is_staff %}
                 {% csrf_token %}
-
+                <br/>
                 <form method="POST">
                 <button class="btn btn-success offset-5" type="submit" name="update_contacts" >Update Contracts</button>
                </form>
