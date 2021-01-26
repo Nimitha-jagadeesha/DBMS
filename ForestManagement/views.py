@@ -8,6 +8,12 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date,timedelta,datetime
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+from prettytable import PrettyTable
 # Create your views here.
 d = timedelta(days=4)
 mydate = datetime.now() + d
@@ -91,6 +97,42 @@ def list_orders_history(request):
 	orders = History.objects.all().order_by('delivery_date')
 	# for i in orders:
 	# 	print(i)
+	context = {
+	    "title": title,
+		"orders":orders,
+		"okay":False,
+		"form":form
+	}
+	if request.method == "POST":
+		user_id = request.POST.get('history')
+		x = History.objects.all()
+		y = User.objects.get(pk = user_id)
+		table = PrettyTable()
+		if y.is_staff:
+			table.field_names =['SECTION',	'PRODUCT',	'QUANTITY',	'DELIVERED DATE',	'ORDERED DATE','COST','NAME']
+			for i in x:
+				table.add_row([i.item.category, i.item,i.ordered_quantity,i.delivery_date,i.ordered_date,i.price,i.user_name])
+		else:
+			table.field_names =['SECTION',	'PRODUCT',	'QUANTITY',	'DELIVERED DATE',	'ORDERED DATE','COST']
+			for i in x:
+				if i.user_name.id == y.id:
+					table.add_row([i.item.category, i.item,i.ordered_quantity,i.delivery_date,i.ordered_date,i.price])
+
+		fromaddr = "nimitha1jagadeesha@gmail.com"
+		toaddr = y.email
+		msg = MIMEMultipart() 
+		msg['From'] = fromaddr 
+		msg['To'] = toaddr 
+		msg['Subject'] = "Order History"
+		body = str(table)
+		msg.attach(MIMEText(body, 'plain')) 
+		s = smtplib.SMTP('smtp.gmail.com', 587) 
+		s.starttls() 
+		s.login(fromaddr, "nimithajnimi1@")
+		text = msg.as_string() 
+		s.sendmail(fromaddr, toaddr, text) 
+		s.quit() 
+			
 	context = {
 	    "title": title,
 		"orders":orders,
