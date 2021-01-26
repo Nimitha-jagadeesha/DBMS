@@ -22,12 +22,18 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'list_staff_contract' %}">Contract</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'history' %}">History</a>
+        </li>
         {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'list_orders' user%} ">Orders</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'list_contracts' user%} ">Contract</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'history' %}">History</a>
         </li>
         {% endif %}
         {% endif %}

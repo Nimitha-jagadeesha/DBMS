@@ -66,6 +66,12 @@ def list_orders(request):
 		x = Order.objects.get(pk=order_id)
 		if x.item.quantity >= x.ordered_quantity:
 			Product.objects.filter(pk=x.item.id).update(quantity=x.item.quantity-x.ordered_quantity)
+			History.objects.create(item = x.item,
+					ordered_quantity = x.ordered_quantity,
+					ordered_date = x.ordered_date,
+					delivery_date = x.delivery_date,
+					user_name = x.user_name,
+					price = (x.item.price * x.ordered_quantity))
 			Order.objects.filter(pk=order_id).delete()
 		else:
 			messages.error(request, "Cannot clear the order as there is no sufficient quantity of "+ str(x.item))
@@ -76,6 +82,22 @@ def list_orders(request):
 		"form":form
 	}
 	return render(request, "list_orders.html",context)
+
+@login_required
+@csrf_exempt
+def list_orders_history(request):
+	form = SearchForm(request.POST or None)
+	title = 'Orders'
+	orders = History.objects.all().order_by('delivery_date')
+	# for i in orders:
+	# 	print(i)
+	context = {
+	    "title": title,
+		"orders":orders,
+		"okay":False,
+		"form":form
+	}
+	return render(request, "history.html",context)
 
 
 

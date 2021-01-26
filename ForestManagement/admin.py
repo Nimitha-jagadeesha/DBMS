@@ -1,6 +1,6 @@
 from django.contrib import admin
 from ForestManagement.forms import ProductCreateForm, OrderCreateForm
-from .models import Product,Order,Contract
+from .models import Product,Order,Contract,History
 
 
 class ProductCreateAdmin(admin.ModelAdmin):
@@ -13,3 +13,4 @@ admin.site.register(Product, ProductCreateAdmin)
 
 admin.site.register(Order)
 admin.site.register(Contract)
+admin.site.register(History)

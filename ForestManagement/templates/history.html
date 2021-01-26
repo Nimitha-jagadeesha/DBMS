@@ -13,17 +13,14 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/navbar-fixed/">
 
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/stylesheet.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="path/to/bootstrap/css/bootstrap.min.css">
+
 
 
     <!-- Favicons -->
     <link rel="shortcut icon" href="{% static 'img/favicon.png' %}">
-    <link href="{% static 'css/navbar-top-fixed.css' %}" rel="stylesheet">
 
 
     <style>
@@ -43,56 +40,76 @@
         }
     </style>
     <!-- Custom styles for this template -->
+    <link href="{% static 'css/navbar-top-fixed.css' %}" rel="stylesheet">
 </head>
 
 <body>
     {% include 'navbar.html' %}
 
+   
     <main role="main" class="container">
         <div class="jumbotron">
-            <div class="header">
-                <h1 style="color: green;"class="offset-3">PRODUCTS AVAILABLE</h1>
+            {% if messages%}
+    {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" style="background-color: rgb(240, 88, 88);color: white;">{{message}}</div>
+    {% endfor %}
+    {% endif %}
+            {% if user.is_staff%}
+            <div class="header offset-3" style="color: green;">
+                <h1>LIST OF ORDERS DELIVERED</h1>
             </div>
+            {% else %}
+            <div class="header offset-3" style="color: green;">
+                <h1>My Past Orders History</h1>
+            </div>
+            {% endif %}
 
             <div class="display_table">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>SL NO.</th>
+                            
                             <th>SECTION</th>
                             <th>PRODUCT NAME</th>
-                            <th>QUANTITY AVAILABLE</th>
-                            <th>PRICE PER ONE TON</th>
+                            <th>QUANTITY</th>
+                            <th>DELIVERED DATE</th>
+                            <th>ORDERED DATE</th>
+                            <th>COST</th>
                             {% if user.is_staff %}
-                            <th>OPTIONS</th>
+                            <th>CUSTOMER NAME</th>
+                            <th></th>
 
                             {% endif %}
-
                         </tr>
                     </thead>
-                    {% for instance in queryset %}
+                    {% for instance in orders %}
+                    {% if user.is_staff %}
                     <tr>
-                        <td>{{forloop.counter}}</td>
-                        <td>{{instance.category}}</td>
-                        <td>{{instance.item_name}}</td>
-                        <td>{{instance.quantity}}</td>
+                        
+                        <td>{{instance.item.category}}</td>
+                        <td>{{instance.item}}</td>
+                        <td>{{instance.ordered_quantity}}</td>
+                        <td>{{instance.delivery_date}}</td>
+                        <td>{{instance.ordered_date}}</td>
                         <td>{{instance.price}}</td>
-                        {% if user.is_staff %}
-                        <td><a href="{% url 'update_items' instance.id %}" class="btn btn-primary"><i
-                                    class="icon-fixed-width icon-pencil"></i></a>{{" "}}<a
-                                href="{% url 'delete_products' instance.id %}" class="btn btn-danger"><i
-                                    class="icon-trash icon-large"></i></a></td>
-                        {% endif %}
-
+                        <td>{{instance.user_name}}</td>
                     </tr>
+                    {% elif user.id == instance.user_name.id %}
+                    <tr>
+                       
+                        <td>{{instance.item.category}}</td>
+                        <td>{{instance.item}}</td>
+                        <td>{{instance.ordered_quantity}}</td>
+                        <td>{{instance.delivery_date}}</td>
+                        <td>{{instance.ordered_date}}</td>
+                        <td>{{instance.price}}</td>
+                       
+                    </tr>
+                    {% endif %}
                     {% endfor %}
                 </table>
             </div>
             <br />
-            {% if user.is_staff %}
-            <a href="{% url 'add_items'%}" class="btn btn-success offset-5"><i class="icon-plus icon-large"></i>&nbsp; ADD</a>
-            {% endif %}
-
         </div>
     </main>
 

@@ -31,4 +31,5 @@ urlpatterns = [
     path('update_products/<str:pk>/', views.update_products, name="update_items"),
     path('delete_products/<str:pk>/', views.delete_products, name="delete_products"),
     path('accounts/', include('registration.backends.default.urls')),
+    path('history/',views.list_orders_history, name='history')
 ]
