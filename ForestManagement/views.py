@@ -14,6 +14,7 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 from prettytable import PrettyTable
+import xlsxwriter
 # Create your views here.
 d = timedelta(days=4)
 mydate = datetime.now() + d
@@ -108,24 +109,55 @@ def list_orders_history(request):
 		x = History.objects.all()
 		y = User.objects.get(pk = user_id)
 		table = PrettyTable()
+		workbook = xlsxwriter.Workbook('history.xlsx')
+		worksheet = workbook.add_worksheet()
+		worksheet.write('A1', 'SECTION')
+		worksheet.write('B1', 'PRODUCT')
+		worksheet.write('C1', 'QUANTITY')
+		worksheet.write('D1', 'DELIVERED DATE')
+		worksheet.write('E1', 'ORDERED DATE')
+		worksheet.write('F1', 'PRICE')
+		x1=0
 		if y.is_staff:
-			table.field_names =['SECTION',	'PRODUCT',	'QUANTITY',	'DELIVERED DATE',	'ORDERED DATE','COST','NAME']
+			worksheet.write('G1', 'USERNAME')
+			j=2
 			for i in x:
-				table.add_row([i.item.category, i.item,i.ordered_quantity,i.delivery_date,i.ordered_date,i.price,i.user_name])
+				worksheet.write('A'+str(j),str(i.item.category) )
+				worksheet.write('B'+str(j), str(i.item))
+				worksheet.write('C'+str(j), str(i.ordered_quantity))
+				worksheet.write('D'+str(j), str(i.delivery_date))
+				worksheet.write('E'+str(j), str(i.ordered_date))
+				worksheet.write('F'+str(j), str(i.price))
+				worksheet.write('G'+str(j), str(i.user_name))
+				x1+=i.price
+				j+=1
 		else:
-			table.field_names =['SECTION',	'PRODUCT',	'QUANTITY',	'DELIVERED DATE',	'ORDERED DATE','COST']
+			j=2
 			for i in x:
 				if i.user_name.id == y.id:
-					table.add_row([i.item.category, i.item,i.ordered_quantity,i.delivery_date,i.ordered_date,i.price])
-
+					worksheet.write('A'+str(j),i.item.category )
+					worksheet.write('B'+str(j), str(i.item))
+					worksheet.write('C'+str(j), str(i.ordered_quantity))
+					worksheet.write('D'+str(j), str(i.delivery_date))
+					worksheet.write('E'+str(j), str(i.ordered_date))
+					worksheet.write('F'+str(j), str(i.price))
+					x1+=i.price
+					j+=1
+		worksheet.write('F'+str(j),'Total = '+str(x1))
+		workbook.close()
 		fromaddr = "nimitha1jagadeesha@gmail.com"
 		toaddr = y.email
 		msg = MIMEMultipart() 
 		msg['From'] = fromaddr 
 		msg['To'] = toaddr 
 		msg['Subject'] = "Order History"
-		body = str(table)
+		body = f"Hello {y}!\nOrders Report has been attached to this mail."
 		msg.attach(MIMEText(body, 'plain')) 
+		part = MIMEBase('application', "octet-stream")
+		part.set_payload(open("history.xlsx", "rb").read())
+		encoders.encode_base64(part)
+		part.add_header('Content-Disposition', 'attachment; filename="history.xlsx"')
+		msg.attach(part)
 		s = smtplib.SMTP('smtp.gmail.com', 587) 
 		s.starttls() 
 		s.login(fromaddr, "nimithajnimi1@")
