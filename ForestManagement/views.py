@@ -160,7 +160,7 @@ def list_orders_history(request):
 		msg.attach(part)
 		s = smtplib.SMTP('smtp.gmail.com', 587) 
 		s.starttls() 
-		s.login(fromaddr, "nimithajnimi1@")
+		s.login(fromaddr, "Padmarekha12345")
 		text = msg.as_string() 
 		s.sendmail(fromaddr, toaddr, text) 
 		s.quit() 

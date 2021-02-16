@@ -139,5 +139,6 @@ LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not
 # REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
 # SITE_ID = 1
 # LOGIN_REDIRECT_URL = '/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACCOUNT_EMAIL_VERIFICATION = "none"
