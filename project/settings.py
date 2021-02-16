@@ -143,4 +143,4 @@ LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not
 # LOGIN_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACCOUNT_EMAIL_VERIFICATION = "none"
-STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
+STATIC_ROOT =  os.path.join(BASE_DIR, 'ForestManagement/static')
