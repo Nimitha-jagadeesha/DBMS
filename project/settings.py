@@ -128,7 +128,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 CRONJOBS = [
     ('*/1 * * * *', 'ForestManagement.cron.mycronjob')
 ]
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 REGISTRATION_OPEN = True                # If True, users can register
 ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
 REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged in.
