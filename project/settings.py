@@ -26,7 +26,7 @@ SECRET_KEY = 'j)bo@m-g$!dz0=a4(o8x-=vd6xrg@3o8i+8r*0bhg6)8w^d6at'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+heroku config:set DISABLE_COLLECTSTATIC=1
 
 # Application definition
 
