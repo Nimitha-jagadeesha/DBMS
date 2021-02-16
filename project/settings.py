@@ -23,10 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'j)bo@m-g$!dz0=a4(o8x-=vd6xrg@3o8i+8r*0bhg6)8w^d6at'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
-heroku config:set DISABLE_COLLECTSTATIC=1
 
 # Application definition
 
