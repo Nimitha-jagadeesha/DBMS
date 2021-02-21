@@ -25,7 +25,7 @@ SECRET_KEY = 'j)bo@m-g$!dz0=a4(o8x-=vd6xrg@3o8i+8r*0bhg6)8w^d6at'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['forest-management-app.herokuapp.com']
 
 # Application definition
 
